@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Auditoría de Adquisición Inmobiliaria</title>
+  <meta name="description" content="Descubrí si estás construyendo un sistema predecible o simplemente delegando el caos.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Fondo principal de la página (Negro profundo) */
+      --color-bg: #06060A;
+      /* Fondo de franjas secundarias: barra de progreso y bloque de introducción (Negro azulado) */
+      --color-bg-strip: #0E0E18;
+      /* Superficies de tarjetas y bloque "síntoma" (Gris azulado oscuro) */
+      --color-surface: #1A1A2E;
+      /* Color de acento principal: bordes activos, checkboxes SÍ, números y detalles (Dorado) */
+      --color-accent: #C9A84C;
+      /* Hover y foco de elementos dorados (Dorado claro) */
+      --color-accent-hover: #E8C97A;
+      /* Texto principal: títulos y párrafos (Marfil) */
+      --color-text: #F0EBE0;
+      /* Texto secundario: subtítulos, etiquetas y notas (Marfil apagado) */
+      --color-text-muted: #9E9688;
+      /* Texto e íconos sobre fondos dorados o marfil (checkbox marcado) */
+      --color-on-accent: #06060A;
+      /* Bordes y divisores sutiles de tarjetas y bloques */
+      --color-border: rgba(201, 168, 76, 0.22);
+      /* Fondo tenue del bloque "solución sistémica" */
+      --color-solution-bg: rgba(201, 168, 76, 0.09);
+      /* Borde lateral del bloque "síntoma del caos" */
+      --color-symptom-border: rgba(158, 150, 136, 0.55);
+      /* Fondo del checkbox NO cuando está marcado */
+      --color-choice-no-bg: #F0EBE0;
+      /* Brillo decorativo del header */
+      --color-glow: rgba(201, 168, 76, 0.14);
+      /* Sombra de tarjetas */
+      --color-shadow: rgba(0, 0, 0, 0.45);
+
+      --font-title: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+      --font-body: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --space-1: 0.5rem;
+      --space-2: 1rem;
+      --space-3: 1.5rem;
+      --space-4: 2.25rem;
+      --space-5: 3.5rem;
+      --container: 62rem;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      color-scheme: dark;
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--color-text);
+      background: var(--color-bg);
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    fieldset,
+    legend {
+      margin: 0;
+      padding: 0;
+    }
+
+    fieldset {
+      min-width: 0;
+      border: 0;
+    }
+
+    svg {
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .page {
+      width: 100%;
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--space-2) var(--space-5);
+    }
+
+    .hero {
+      position: relative;
+      padding: var(--space-5) var(--space-2) var(--space-4);
+      text-align: center;
+      background: radial-gradient(ellipse at top, var(--color-glow), transparent 65%);
+    }
+
+    .hero__eyebrow {
+      display: inline-block;
+      margin-bottom: var(--space-2);
+      padding: 0.3rem 1rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+    }
+
+    .hero__title {
+      max-width: 46rem;
+      margin: 0 auto;
+      font-family: var(--font-title);
+      font-size: clamp(2.1rem, 7.4vw, 3.9rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      color: var(--color-text);
+    }
+
+    .hero__subtitle {
+      max-width: 38rem;
+      margin: var(--space-2) auto 0;
+      font-size: clamp(1.05rem, 3.4vw, 1.3rem);
+      color: var(--color-text-muted);
+    }
+
+    .intro {
+      padding: var(--space-3);
+      background: var(--color-bg-strip);
+      border: 1px solid var(--color-border);
+      border-left: 3px solid var(--color-accent);
+      border-radius: var(--radius-md);
+    }
+
+    .intro__text {
+      max-width: 52rem;
+      font-size: 1.05rem;
+    }
+
+    .intro__text strong {
+      color: var(--color-accent);
+      font-weight: 700;
+    }
+
+    .tracker {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin: var(--space-3) calc(var(--space-2) * -1) 0;
+      padding: 0.75rem var(--space-2);
+      background: var(--color-bg-strip);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .tracker__counter {
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .progress {
+      flex: 1;
+      height: 6px;
+      appearance: none;
+      -webkit-appearance: none;
+      border: 0;
+      border-radius: 999px;
+      background: var(--color-surface);
+      overflow: hidden;
+    }
+
+    .progress::-webkit-progress-bar {
+      background: var(--color-surface);
+    }
+
+    .progress::-webkit-progress-value {
+      background: var(--color-accent);
+      transition: width 0.3s ease;
+    }
+
+    .progress::-moz-progress-bar {
+      background: var(--color-accent);
+    }
+
+    .reset {
+      flex-shrink: 0;
+      padding: 0.4rem 0.9rem;
+      font: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      background: transparent;
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .reset:hover {
+      color: var(--color-accent-hover);
+      border-color: var(--color-accent);
+    }
+
+    .reset:focus-visible {
+      outline: 2px solid var(--color-accent-hover);
+      outline-offset: 2px;
+    }
+
+    .audit {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      margin-top: var(--space-3);
+    }
+
+    .card {
+      padding: var(--space-3);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 10px 30px var(--color-shadow);
+      transition: border-color 0.25s ease;
+    }
+
+    .card[data-answer="si"] {
+      border-color: var(--color-accent);
+    }
+
+    .card[data-answer="no"] {
+      border-color: var(--color-text-muted);
+    }
+
+    .card__head {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-2);
+    }
+
+    .card__number {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 2.75rem;
+      height: 2.75rem;
+      font-family: var(--font-title);
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--color-on-accent);
+      background: var(--color-accent);
+      border-radius: 50%;
+    }
+
+    .card__title {
+      font-family: var(--font-title);
+      font-size: clamp(1.6rem, 5.4vw, 2.15rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--color-text);
+    }
+
+    .card__tagline {
+      margin-top: 0.2rem;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--color-accent);
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+    }
+
+    .compare__box {
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-md);
+      border-left: 3px solid transparent;
+    }
+
+    .compare__box--symptom {
+      background: var(--color-bg);
+      border-left-color: var(--color-symptom-border);
+      color: var(--color-text-muted);
+    }
+
+    .compare__box--solution {
+      background: var(--color-solution-bg);
+      border-left-color: var(--color-accent);
+      color: var(--color-text);
+    }
+
+    .compare__label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .compare__box--symptom .compare__label {
+      color: var(--color-text-muted);
+    }
+
+    .compare__box--solution .compare__label {
+      color: var(--color-accent);
+    }
+
+    .diagnosis {
+      margin-top: var(--space-3);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .diagnosis__label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .diagnosis__question {
+      margin-top: 0.35rem;
+      font-family: var(--font-title);
+      font-size: clamp(1.3rem, 4.6vw, 1.6rem);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--color-text);
+    }
+
+    .final {
+      margin-top: var(--space-3);
+    }
+
+    .final__legend {
+      margin-bottom: var(--space-2);
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-2);
+    }
+
+    .choice {
+      position: relative;
+    }
+
+    .choice__input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .choice__label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      min-height: 3.5rem;
+      padding: 0.75rem 1rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--color-text);
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .choice__label:hover {
+      border-color: var(--color-accent);
+    }
+
+    .choice__box {
+      display: grid;
+      place-items: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      color: transparent;
+      border: 2px solid var(--color-accent);
+      border-radius: 6px;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .choice__input:focus-visible + .choice__label {
+      outline: 3px solid var(--color-accent-hover);
+      outline-offset: 3px;
+    }
+
+    .choice__input:checked + .choice__label--yes {
+      color: var(--color-on-accent);
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    .choice__input:checked + .choice__label--yes .choice__box {
+      color: var(--color-accent);
+      background: var(--color-on-accent);
+      border-color: var(--color-on-accent);
+    }
+
+    .choice__input:checked + .choice__label--no {
+      color: var(--color-on-accent);
+      background: var(--color-choice-no-bg);
+      border-color: var(--color-choice-no-bg);
+    }
+
+    .choice__input:checked + .choice__label--no .choice__box {
+      color: var(--color-choice-no-bg);
+      background: var(--color-on-accent);
+      border-color: var(--color-on-accent);
+    }
+
+    .result {
+      margin-top: var(--space-4);
+      padding: var(--space-4) var(--space-3);
+      text-align: center;
+      background: var(--color-bg-strip);
+      border: 1px solid var(--color-accent);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 10px 30px var(--color-shadow);
+    }
+
+    .result__icon {
+      margin: 0 auto var(--space-2);
+      color: var(--color-accent);
+    }
+
+    .result__title {
+      max-width: 40rem;
+      margin: 0 auto;
+      font-family: var(--font-title);
+      font-size: clamp(1.7rem, 6vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--color-accent);
+    }
+
+    .result__text {
+      max-width: 40rem;
+      margin: var(--space-2) auto 0;
+      font-size: clamp(1rem, 3.4vw, 1.15rem);
+      color: var(--color-text);
+    }
+
+    .result__text strong {
+      color: var(--color-accent-hover);
+      font-weight: 700;
+    }
+
+    .result__message--clear {
+      display: none;
+    }
+
+    .result[data-state="clear"] .result__message--clear {
+      display: block;
+    }
+
+    .result[data-state="clear"] .result__message--alert {
+      display: none;
+    }
+
+    @media (min-width: 48em) {
+      .hero {
+        padding: 5rem var(--space-3) var(--space-4);
+      }
+
+      .card {
+        padding: var(--space-4);
+      }
+
+      .compare {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .choices {
+        max-width: 28rem;
+      }
+
+      .result {
+        padding: var(--space-5) var(--space-4);
+      }
+    }
+
+    @media (max-width: 30em) {
+      .tracker {
+        flex-wrap: wrap;
+        gap: 0.5rem var(--space-2);
+      }
+
+      .progress {
+        order: 3;
+        flex-basis: 100%;
+      }
+
+      .card__head {
+        flex-direction: column;
+      }
+
+      .choice__label {
+        flex-direction: column;
+        gap: 0.4rem;
+        padding: 0.75rem 0.5rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      * {
+        transition: none !important;
+      }
+    }
+
+    @media print {
+      .tracker {
+        display: none;
+      }
+
+      .card,
+      .result {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="hero__eyebrow">Recurso para inmobiliarias y desarrolladoras</span>
+      <h1 class="hero__title">Auditoría de Adquisición Inmobiliaria</h1>
+      <p class="hero__subtitle">Descubrí si estás construyendo un sistema predecible o simplemente delegando el caos.</p>
+    </header>
+
+    <section class="intro" aria-label="Introducción">
+      <p class="intro__text">Antes de firmar contrato con otra persona para que haga "lo que hoy hacés a pulmón", evaluá dónde está parada tu inmobiliaria. Contratar manos sin tener procesos es comprar un problema más grande. <strong>Marcá con honestidad la situación actual de tu negocio:</strong></p>
+    </section>
+
+    <form class="audit-form" data-audit novalidate>
+      <div class="tracker" role="status" aria-live="polite">
+        <span class="tracker__counter" data-counter>0 de 3 puntos evaluados</span>
+        <progress class="progress" data-progress max="3" value="0" aria-label="Avance de la auditoría"></progress>
+        <button class="reset" type="reset" data-reset>Reiniciar</button>
+      </div>
+
+      <div class="audit">
+        <article class="card" data-card aria-labelledby="titulo-1">
+          <header class="card__head">
+            <span class="card__number" aria-hidden="true">1</span>
+            <div>
+              <h2 class="card__title" id="titulo-1">Atracción de tráfico</h2>
+              <p class="card__tagline">El fin de la “pauta a ciegas”</p>
+            </div>
+          </header>
+
+          <div class="compare">
+            <section class="compare__box compare__box--symptom">
+              <h3 class="compare__label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                El síntoma del caos
+              </h3>
+              <p>Estás haciendo pauta sin saber cómo, filmando y subiendo posteos sin estrategia. Contratar a alguien ahora es hacer el mismo ruido, pero más barato.</p>
+            </section>
+            <section class="compare__box compare__box--solution">
+              <h3 class="compare__label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                La solución sistémica
+              </h3>
+              <p>Un ecosistema donde los anuncios son piezas de un embudo (tráfico dirigido a Landing Pages específicas) diseñado bajo una auditoría previa.</p>
+            </section>
+          </div>
+
+          <div class="diagnosis">
+            <p class="diagnosis__label">Tu diagnóstico</p>
+            <p class="diagnosis__question">¿Tus anuncios actuales traen prospectos medibles o solo likes y "precio por favor"?</p>
+            <fieldset class="final" data-group>
+              <legend class="final__legend">¿Tenés un sistema de atracción estructurado?</legend>
+              <div class="choices">
+                <div class="choice">
+                  <input class="choice__input" type="checkbox" id="p1-si" name="p1" value="si">
+                  <label class="choice__label choice__label--yes" for="p1-si">
+                    <span class="choice__box" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    SÍ
+                  </label>
+                </div>
+                <div class="choice">
+                  <input class="choice__input" type="checkbox" id="p1-no" name="p1" value="no">
+                  <label class="choice__label choice__label--no" for="p1-no">
+                    <span class="choice__box" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </span>
+                    NO
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </article>
+
+        <article class="card" data-card aria-labelledby="titulo-2">
+          <header class="card__head">
+            <span class="card__number" aria-hidden="true">2</span>
+            <div>
+              <h2 class="card__title" id="titulo-2">Filtrado tecnológico</h2>
+              <p class="card__tagline">El fin de “copiar y pegar datos”</p>
+            </div>
+          </header>
+
+          <div class="compare">
+            <section class="compare__box compare__box--symptom">
+              <h3 class="compare__label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                El síntoma del caos
+              </h3>
+              <p>Tu equipo gasta horas respondiendo a curiosos y copiando datos. Tu tiempo se consume atendiendo a personas no calificadas.</p>
+            </section>
+            <section class="compare__box compare__box--solution">
+              <h3 class="compare__label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                La solución sistémica
+              </h3>
+              <p>Integrar tecnología (formularios condicionales, automatizaciones) que filtra a los curiosos antes de que lleguen a tu equipo.</p>
+            </section>
+          </div>
+
+          <div class="diagnosis">
+            <p class="diagnosis__label">Tu diagnóstico</p>
+            <p class="diagnosis__question">¿Tus leads se pre-califican solos 24/7 mediante tecnología?</p>
+            <fieldset class="final" data-group>
+              <legend class="final__legend">¿Tenés un filtro automático implementado?</legend>
+              <div class="choices">
+                <div class="choice">
+                  <input class="choice__input" type="checkbox" id="p2-si" name="p2" value="si">
+                  <label class="choice__label choice__label--yes" for="p2-si">
+                    <span class="choice__box" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    SÍ
+                  </label>
+                </div>
+                <div class="choice">
+                  <input class="choice__input" type="checkbox" id="p2-no" name="p2" value="no">
+                  <label class="choice__label choice__label--no" for="p2-no">
+                    <span class="choice__box" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </span>
+                    NO
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </article>
+
+        <article class="card" data-card aria-labelledby="titulo-3">
+          <header class="card__head">
+            <span class="card__number" aria-hidden="true">3</span>
+            <div>
+              <h2 class="card__title" id="titulo-3">Operativa comercial</h2>
+              <p class="card__tagline">El fin del “director del caos”</p>
+            </div>
+          </header>
+
+          <div class="compare">
+            <section class="compare__box compare__box--symptom">
+              <h3 class="compare__label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                El síntoma del caos
+              </h3>
+              <p>Sos el micro-manager de tu inmobiliaria. Tenés distintos empleados haciendo cosas sueltas y estás 24/7 digitando qué deben hacer.</p>
+            </section>
+            <section class="compare__box compare__box--solution">
+              <h3 class="compare__label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                La solución sistémica
+              </h3>
+              <p>La maquinaria funciona sola. El sistema nutre, filtra y agenda, dejando a tu equipo enfocado 100% en cerrar ventas.</p>
+            </section>
+          </div>
+
+          <div class="diagnosis">
+            <p class="diagnosis__label">Tu diagnóstico</p>
+            <p class="diagnosis__question">¿Tu equipo comercial se dedica exclusivamente a cerrar operaciones con consultas calificadas?</p>
+            <fieldset class="final" data-group>
+              <legend class="final__legend">¿Tenés un proceso predecible y autónomo?</legend>
+              <div class="choices">
+                <div class="choice">
+                  <input class="choice__input" type="checkbox" id="p3-si" name="p3" value="si">
+                  <label class="choice__label choice__label--yes" for="p3-si">
+                    <span class="choice__box" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    SÍ
+                  </label>
+                </div>
+                <div class="choice">
+                  <input class="choice__input" type="checkbox" id="p3-no" name="p3" value="no">
+                  <label class="choice__label choice__label--no" for="p3-no">
+                    <span class="choice__box" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </span>
+                    NO
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </article>
+      </div>
+    </form>
+
+    <footer class="result" data-result data-state="alert" aria-live="polite">
+      <svg class="result__icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      <div class="result__message result__message--alert">
+        <h2 class="result__title">Si marcaste NO en alguna de estas casillas:</h2>
+        <p class="result__text">Estás a un paso de comprar un nuevo problema operativo. No necesitás más personas haciendo lo mismo que vos; necesitás implementar un <strong>Sistema de Adquisición</strong> para escalar con previsibilidad.</p>
+      </div>
+      <div class="result__message result__message--clear">
+        <h2 class="result__title">Marcaste SÍ en los tres puntos.</h2>
+        <p class="result__text">Tenés una base sólida: sumar gente ahora potencia un <strong>Sistema de Adquisición</strong> que ya funciona, en lugar de multiplicar el caos.</p>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      var form = document.querySelector("[data-audit]");
+      var cards = Array.prototype.slice.call(form.querySelectorAll("[data-card]"));
+      var progress = form.querySelector("[data-progress]");
+      var counter = form.querySelector("[data-counter]");
+      var result = document.querySelector("[data-result]");
+
+      function answerOf(card) {
+        var checked = card.querySelector(".choice__input:checked");
+        return checked ? checked.value : "";
+      }
+
+      function update() {
+        var answered = 0;
+        var yes = 0;
+        cards.forEach(function (card) {
+          var answer = answerOf(card);
+          if (answer) {
+            card.setAttribute("data-answer", answer);
+            answered += 1;
+            if (answer === "si") {
+              yes += 1;
+            }
+          } else {
+            card.removeAttribute("data-answer");
+          }
+        });
+        progress.value = answered;
+        counter.textContent = answered + " de " + cards.length + " puntos evaluados";
+        result.setAttribute("data-state", yes === cards.length ? "clear" : "alert");
+      }
+
+      form.addEventListener("change", function (event) {
+        var input = event.target;
+        if (!input.classList.contains("choice__input")) {
+          return;
+        }
+        if (input.checked) {
+          var group = input.closest("[data-group]");
+          Array.prototype.forEach.call(group.querySelectorAll(".choice__input"), function (other) {
+            if (other !== input) {
+              other.checked = false;
+            }
+          });
+        }
+        update();
+      });
+
+      form.addEventListener("reset", function () {
+        window.setTimeout(update, 0);
+      });
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+      });
+
+      update();
+    })();
+  </script>
+</body>
+</html>
